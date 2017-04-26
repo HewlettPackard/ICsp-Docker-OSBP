@@ -1,0 +1,250 @@
+<?xml version="1.0"?>
+<!DOCTYPE profile>
+<profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
+<!-- 
+Copyright 2017 Hewlett Packard Enterprise Development LP Licensed under the 
+Apache License, Version 2.0 (the "License"); you may not use this file except 
+in compliance with the License. You may obtain a copy of the License at 
+http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law 
+or agreed to in writing, software distributed under the License is distributed 
+on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+express or implied. See the License for the specific language governing 
+permissions and limitations under the License. 
+-->
+
+<!-- The "bootloader" section has been commented out to make this AutoYaST 
+configuration as generic as possible, and let SLES automatically select 
+the appropriate boot loader (eLiLo or Grub) for the current boot mode
+(UEFI or Legacy). To specify boot loader options, uncomment the "bootloader" 
+section and add the necessary customizations for the boot loader that is
+ appropriate for your current boot mode. -->
+
+<!--
+  <bootloader>
+    <loader_type>grub</loader_type>
+    <sections config:type="list">
+      <section>
+        <append>@kernel_arguments: @</append>
+        <type>image</type>
+      </section>
+    </sections>
+  </bootloader>
+-->
+  
+  <deploy_image>
+    <image_installation config:type="boolean">false</image_installation>
+  </deploy_image>
+  
+  <general>
+    <ask-list config:type="list"/>
+    <mode>
+      <confirm config:type="boolean">false</confirm>
+      <interactive config:type="boolean">false</interactive>
+      <reboot config:type="boolean">false</reboot>
+    </mode>
+    <mouse>
+      <id>probe</id>
+    </mouse>
+    <proposals config:type="list"/>
+    <signature-handling>
+      <accept_file_without_checksum config:type="boolean">true</accept_file_without_checksum>
+      <accept_non_trusted_gpg_key config:type="boolean">true</accept_non_trusted_gpg_key>
+      <accept_unknown_gpg_key config:type="boolean">true</accept_unknown_gpg_key>
+      <accept_unsigned_file config:type="boolean">true</accept_unsigned_file>
+      <accept_verification_failed config:type="boolean">true</accept_verification_failed>
+      <import_gpg_key config:type="boolean">true</import_gpg_key>
+    </signature-handling>
+  </general>
+  
+  <groups config:type="list"/>
+  
+  <keyboard>
+    <keymap>english-us</keymap>
+  </keyboard>
+  
+  <language>
+    <language>en_US</language>
+    <languages>en_US</languages>
+  </language>
+  
+  <login_settings/>
+
+  <networking>
+    <start_immediately   config:type="boolean">true</start_immediately>    
+  </networking>
+
+<!-- To make this installation as generic as possible, this installation 
+will use all the available disk for installing SLES OS. SLES Installer 
+creates the default partitions and file systems based on current boot mode
+(UEFI or Legacy), to specify partition options, add the "partition" section 
+and the necessary customizations for the drivers and partitions that is 
+appropriate for your current boot mode and storage configuration.-->
+
+  <partitioning config:type="list">
+    <drive>
+      <use>all</use>
+    </drive>
+  </partitioning>
+
+  <report>
+    <errors>
+      <timeout config:type="integer">10</timeout>
+    </errors>
+    <messages>
+      <timeout config:type="integer">10</timeout>
+    </messages>
+    <warnings>
+      <timeout config:type="integer">10</timeout>
+    </warnings>
+  </report>
+  
+  <runlevel>
+      <default>3</default>
+      <services config:type="list">
+	<service>
+	  <service_name>snmpd</service_name>
+	  <service_status>enable</service_status>
+        </service>  
+      </services>
+   </runlevel>
+  
+<!-- Packages needed for successfull installation of HP SPP
+-->
+   <software>
+      <patterns config:type="list">
+        <pattern>base</pattern>
+        <pattern>x11</pattern>
+        <pattern>Basis-Devel</pattern>
+        <pattern>apparmor</pattern>  
+      </patterns>
+      <packages config:type="list">
+        <package>autoyast2-installation</package>
+        <package>net-snmp</package>
+        <package>perl-SNMP</package>
+        <package>libstdc++6-32bit</package>
+        <package>kernel-syms</package>
+		<package>patterns-sles-printing</package>
+		<package>libHBAAPI2</package>
+      </packages>
+    </software>
+
+  <services-manager>
+     <default_target>multi-user</default_target>
+        <services>
+          <enable config:type="list">
+             <service>sshd</service>
+          </enable>
+        </services>
+  </services-manager>
+
+  <timezone>
+    <hwclock>localtime</hwclock>
+    <timezone>America/Chicago</timezone>
+  </timezone>
+  
+  <user_defaults>
+    <expire></expire>
+    <group>100</group>
+    <groups>video,dialout</groups>
+    <home>/home</home>
+    <inactive>-1</inactive>
+    <shell>/bin/bash</shell>
+    <skel>/etc/skel</skel>
+  </user_defaults>
+  
+  <users config:type="list">
+     <user>        
+        <fullname>root</fullname>
+        <gid>0</gid>
+        <home>/root</home>
+        <password_settings>
+          <inact>99999</inact>
+          <max>99999</max>
+          <min>99999</min>
+          <warn>1</warn>
+        </password_settings>
+        <shell>/bin/bash</shell>
+        <uid>0</uid>
+        <encrypted config:type="boolean">true</encrypted>
+        <user_password>@encrypted_root_password:$1$7z4m7f1z$wliShMhVv2HuCAPmuiQzV1@</user_password>
+        <username>root</username>
+      </user>    
+      <user>
+        <fullname>docker</fullname>
+        <gid>500</gid>
+        <home>/home/docker</home>
+        <password_settings>
+          <inact>99999</inact>
+          <max>99999</max>
+          <min>99999</min>
+          <warn>1</warn>
+        </password_settings>
+        <shell>/bin/bash</shell>
+        <uid>500</uid>
+        <encrypted config:type="boolean">true</encrypted>
+        <user_password>@encrypted_root_password:$1$7z4m7f1z$wliShMhVv2HuCAPmuiQzV1@</user_password>
+        <username>docker</username>
+      </user> 
+  </users>
+ <firewall>
+      <enable_firewall config:type="boolean">false</enable_firewall>
+      <start_firewall config:type="boolean">false</start_firewall>
+    </firewall>
+
+ <scripts>
+	<pre-scripts>
+      <script>
+        <filename>startfw.sh</filename>
+        <interpreter>shell</interpreter>
+        <source>
+                <![CDATA[### Loading Dynamic Smart Array hpvsa and hpdsa drivers###
+#!/bin/sh
+modprobe hpvsa
+modprobe hpdsa
+]]>     
+       </source>
+      </script>
+    </pre-scripts>
+
+<!-- To Enable the Firewall comment the above firewall element lines and remove this comment. Additional port numbers can be added to variable port
+
+    <init-scripts config:type="list">
+      <script>
+        <filename>startfw.sh</filename>
+        <interpreter>shell</interpreter>
+        <source>
+		<![CDATA[### Enabling Firewall ###
+
+#!/bin/sh
+
+port="1002"
+echo "Init-script startfirewall: Starting the firewall"
+service SuSEfirewall2_init start
+service SuSEfirewall2_setup start
+echo "Inject firewall settings"
+if ( /sbin/SuSEfirewall2 status &>/dev/null ) ; then
+                if ( ! grep -q "FW_SERVICES_EXT_TCP=.*$port" /etc/sysconfig/SuSEfirewall2) ; then
+                                echo "- opening port $port"
+                                sed -i "s|\(FW_SERVICES_EXT_TCP=\".*\)\"|\1 $port\"|;s|\" |\"|" /etc/sysconfig/SuSEfirewall2
+                                /sbin/SuSEfirewall2 start
+                fi
+                if ( ! grep -q "FW_SERVICES_EXT_IP=.icmp*" /etc/sysconfig/SuSEfirewall2); then
+                                echo "Setting FW_SERVICES_EXT_IP "
+                                sed -i "s/FW_SERVICES_EXT_IP=\"\"/FW_SERVICES_EXT_IP=\"icmp\"/g" /etc/sysconfig/SuSEfirewall2
+                                /sbin/SuSEfirewall2 start
+                fi
+                if ( ! grep -q "FW_DEV_EXT=.any*" /etc/sysconfig/SuSEfirewall2) ; then
+                                echo "Setting FW_DEV_EXT"
+                                sed -i "s/FW_DEV_EXT=\"\"/FW_DEV_EXT=\"any\"/g" /etc/sysconfig/SuSEfirewall2
+                                /sbin/SuSEfirewall2 start
+                fi
+fi
+echo "Init-script startfirewall: Permanently enabling the firewall"
+chkconfig SuSEfirewall2_init on
+chkconfig SuSEfirewall2_setup on
+]]>
+       </source>
+      </script>
+    </init-scripts> --> 
+  </scripts>
+</profile>
