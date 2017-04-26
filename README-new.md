@@ -1,6 +1,5 @@
 # About ICsp
 
-<<<<<<< HEAD
 Insight Control (IC) Server Provisioning provides OS Build Plans, scripts, packages, and configuration files that are used to deploy operating systems, configure hardware, update firmware and perform scripted installations.
 
 OS build plans are the way tasks get done in IC server provisioning. These are the items you actually run to cause actions like installing a server or updating firmware to happen. OS build plans are simply a collection of ordered steps and parameters associated with those steps that when placed together, in the proper order, can perform just about any action you require. IC server provisioning comes ready to run, with sample build plans and build plan steps that are designed to work right out of the box. These sample build plans are very important, because they demonstrate the steps needed to perform the most common deployment related operations. 
@@ -104,9 +103,3 @@ In order to create an OSBP that installs Docker EE on an Ubuntu 14.04 server, we
 You should be able to login via SSH to the brand new system using the 'docker' account and the password 'ChangeMe123!'. You can then switch to root if required using the same password, but you won’t be allowed to connect directly with root via SSH. It is highly recommended that you change both passwords as soon as you log in for the first time.
 
 Note: the docker user is not part of the sudoers by default, so you won’t be able to run privileged commands or to switch to root by using the sudo command. You should instead switch to root by using the su command (with either "su -" or "su - root") and then entering the root password.
-=======
-Insight Control server provisioning (ICsp) provides OS Build Plans, scripts, packages, and configuration files that are used to deploy operating systems, configure hardware, update firmware and perform scripted installations.
-Docker Enterprise Edition (Docker EE) is designed for enterprise development and IT teams who build, ship, and run business critical applications in production at scale. 
-
-Stay tuned. Coming soon!
->>>>>>> e0e5320a33a3e45b3431fa9548305c5686646abf
