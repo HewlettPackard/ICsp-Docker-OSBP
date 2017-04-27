@@ -103,3 +103,6 @@ In order to create an OSBP that installs Docker EE on an Ubuntu 14.04 server, we
 You should be able to login via SSH to the brand new system using the 'docker' account and the password 'ChangeMe123!'. You can then switch to root if required using the same password, but you won’t be allowed to connect directly with root via SSH. It is highly recommended that you change both passwords as soon as you log in for the first time.
 
 Note: the docker user is not part of the sudoers by default, so you won’t be able to run privileged commands or to switch to root by using the sudo command. You should instead switch to root by using the su command (with either "su -" or "su - root") and then entering the root password.
+
+## Disclaimer
+As per section 7 of the Apache 2.0 license, this software is provided on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND. In addition to this, there is no plan to keep maintaining this software on a regular basis. However, if you encounter a problem running the scripts, we would be grateful if you could let us know by creating a new issue in GitHub or by contacting us directly. We'll do our best to fix it on a best-effort basis.
