@@ -9,7 +9,7 @@ The Insight Control Server Provisioning appliances does not have an OSBP to perf
 More information here: http://www8.hp.com/us/en/products/servers/management/insight-control/provisioning-server-migration.html
 
 # How to use the scripts
-Scripts and files included in an OSBP in ICsp intended to install Docker EE on Proliant, Blades and Synergy using ICsp 7.6. This has not been tested with 7.6.1 yet but there is no reason why it shouldn't work on it too. The OS versions used are:
+Scripts and files included in an OSBP in ICsp intended to install Docker EE on Proliant, Blades and Synergy using ICsp 7.6. The scripts have not been tested with later versions (since they are currently under development) but we would expect a similar behaviour. The OS versions used are:
 
 * RHEL 7.2
 * SLES 12 SP1
