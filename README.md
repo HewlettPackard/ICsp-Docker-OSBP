@@ -9,7 +9,7 @@ The Insight Control Server Provisioning appliances does not have an OSBP to perf
 More information here: http://www8.hp.com/us/en/products/servers/management/insight-control/provisioning-server-migration.html
 
 # How to use the scripts
-Scripts and files included in an OSBP in ICsp intended to install Docker EE on Proliant, Blades and Synergy using ICsp 7.6. The scripts have not been tested with later versions (since they are currently under development) but we would expect a similar behaviour. The OS versions used are:
+Scripts and files included in an OSBP in ICsp intended to install Docker EE on Proliant, Blades and Synergy using ICsp 7.6. The scripts have not been tested with later versions (since they are currently under development) but we would expect a similar behaviour. They should also work in VMs. The OS versions used are:
 
 * RHEL 7.2
 * SLES 12 SP1
@@ -29,6 +29,8 @@ In order to create an OSBP that installs Docker EE on a RHEL7 server, we need sa
 	-	proxy_hostname (optional): self-explanatory
 	-	proxy_port (optional): self-explanatory
 	-	no_proxy (optional): Comma-separated list of IP addresses or server names where the proxy should not be used for
+	-	swarm_leader (optional): IP address to create a Swarm and where the Swarm leader will be listening from. The IP must exist in this server for the Swarm creation to succeed. If this field is set the custom attribute 'swarm_node' will be ignored. **Please note that this feature is still experimental.**
+	-	swarm_node (optional): Full command to be run to join the swarm. The commands to join as a manager or as a worker can be found in the leader deployment logs. **Please note that this feature is still experimental.**
 	-	nic_teaming (optional): the OSBP has the option to create one or more NIC teams to provide HA networking. This custom attribute defines the list of NIC teams we intend to create. Format is as follows:
 	```
 		<team name 1>, <MAC1>, <MAC2>
@@ -37,9 +39,9 @@ In order to create an OSBP that installs Docker EE on a RHEL7 server, we need sa
 		...
 	```
 	This custom attribute can have any numbers of NIC pairs, but can also be left empty if NIC teaming is not required in the system. The IP address assigned to the NIC team will be chosen as follows:
-	-	The static IP of the first NIC, if available, or
-	-	The static IP of the second NIC, if available, or
-	-	A DHCP provided IP if both NICs are set on DHCP.
+	1. The static IP of the first NIC, if available, or
+	2. The static IP of the second NIC, if available, or
+	3. A DHCP provided IP if both NICs are set on DHCP.
 
 * Add the bash scripts for docker installation (https://github.com/HewlettPackard/ICsp-Docker-OSBP/blob/master/rhel/install_docker_on_RHEL7.sh) and NIC teaming (https://github.com/HewlettPackard/ICsp-Docker-OSBP/blob/master/rhel/nic_teaming_on_RHEL7.sh) at the end of the OSBP.
 * Replace the default kickstart file in the OSBP with the one provided (https://github.com/HewlettPackard/ICsp-Docker-OSBP/blob/master/rhel/kickstart_RHEL7.ks). This new kickstart file includes the changes below:
@@ -57,6 +59,8 @@ In order to create an OSBP that installs Docker EE on a SLES 12 server, we need 
 	-	proxy_hostname (optional): self-explanatory
 	-	proxy_port (optional): self-explanatory
 	-	no_proxy (optional): Comma-separated list of IP addresses or server names where the proxy should not be used for
+	-	swarm_leader (optional): IP address to create a Swarm and where the Swarm leader will be listening from. The IP must exist in this server for the Swarm creation to succeed. If this field is set the custom attribute 'swarm_node' will be ignored. **Please note that this feature is still experimental.**
+	-	swarm_node (optional): Full command to be run to join the swarm. The commands to join as a manager or as a worker can be found in the leader deployment logs. **Please note that this feature is still experimental.**
 	-	nic_teaming (optional): the OSBP has the option to create one or more NIC teams to provide HA networking. This custom attribute defines the list of NIC teams we intend to create. Format is as follows:
 	```
 		<team name 1>, <MAC1>, <MAC2>
@@ -65,9 +69,9 @@ In order to create an OSBP that installs Docker EE on a SLES 12 server, we need 
 		...
 	```
 	This custom attribute can have any numbers of NIC pairs, but can also be left empty if NIC teaming is not required in the system. The IP address assigned to the NIC team will be chosen as follows:
-	-	The static IP of the first NIC, if available, or
-	-	The static IP of the second NIC, if available, or
-	-	A DHCP provided IP if both NICs are set on DHCP.
+	1. The static IP of the first NIC, if available, or
+	2. The static IP of the second NIC, if available, or
+	3. A DHCP provided IP if both NICs are set on DHCP.
 * Add the bash scripts for docker installation (https://github.com/HewlettPackard/ICsp-Docker-OSBP/blob/master/sles/install_docker_on_SLES12.sh) and NIC teaming (https://github.com/HewlettPackard/ICsp-Docker-OSBP/blob/master/sles/nic_teaming_on_SLES12.sh) at the end of the OSBP.
 * Replace the default autoyast file in the OSBP with the one provided (https://github.com/HewlettPackard/ICsp-Docker-OSBP/blob/master/sles/autoyast_SLES12.txt). This new autoyast file includes the changes below:
 	-	Enable the SSH service
@@ -84,6 +88,8 @@ In order to create an OSBP that installs Docker EE on an Ubuntu 14.04 server, we
 	-	proxy_hostname (optional): self-explanatory
 	-	proxy_port (optional): self-explanatory
 	-	no_proxy (optional): Comma-separated list of IP addresses or server names where the proxy should not be used for
+	-	swarm_leader (optional): IP address to create a Swarm and where the Swarm leader will be listening from. The IP must exist in this server for the Swarm creation to succeed. If this field is set the custom attribute 'swarm_node' will be ignored. **Please note that this feature is still experimental.**
+	-	swarm_node (optional): Full command to be run to join the swarm. The commands to join as a manager or as a worker can be found in the leader deployment logs. **Please note that this feature is still experimental.**
 	-	nic_bonds (optional): the OSBP has the option to create one or more NIC bonds to provide HA networking. This custom attribute defines the list of bonds we intend to create. Format is as follows:
 	```
 		<bond name 1>, <MAC1>, <MAC2>
@@ -103,6 +109,11 @@ In order to create an OSBP that installs Docker EE on an Ubuntu 14.04 server, we
 You should be able to login via SSH to the brand new system using the 'docker' account and the password 'ChangeMe123!'. You can then switch to root if required using the same password, but you won’t be allowed to connect directly with root via SSH. It is highly recommended that you change both passwords as soon as you log in for the first time.
 
 Note: the docker user is not part of the sudoers by default, so you won’t be able to run privileged commands or to switch to root by using the sudo command. You should instead switch to root by using the su command (with either "su -" or "su - root") and then entering the root password.
+
+## More information
+
+* [Blog entry](https://community.hpe.com/t5/Alliances/Deploy-Docker-ready-servers-in-minutes-with-HPE-ICsp/ba-p/6962368#.WQw2WNy1vmh) 
+* [Demo video](https://vimeo.com/ophintor/icsp-docker)
 
 ## Disclaimer
 As per section 7 of the Apache 2.0 license, this software is provided on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND. In addition to this, there is no plan to keep maintaining this software on a regular basis. However, if you encounter a problem running the scripts, we would be grateful if you could let us know by [creating a new issue in GitHub](https://github.com/HewlettPackard/ICsp-Docker-OSBP/issues) or by [contacting us directly](https://github.com/HewlettPackard/ICsp-Docker-OSBP/graphs/contributors). We'll do our best to address your feedback on a best-effort basis.

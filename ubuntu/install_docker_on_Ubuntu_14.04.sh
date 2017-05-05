@@ -118,6 +118,8 @@ docker_user=docker
 docker_repo="@docker_repo@"
 docker_version="@docker_version@"
 internal_ubuntu_repo="@internal_ubuntu_repo@"
+swarm_leader="@swarm_leader@"
+swarm_node="@swarm_node@"
 
 #
 #
@@ -196,6 +198,20 @@ function configure_internal_ubuntu_repo() {
     echo "deb ${internal_ubuntu_repo} trusty main" > /etc/apt/sources.list
 }
 
+function config_swarm() {
+    if [ ${#swarm_leader} -gt 0 ]; then 
+        docker swarm init --advertise-addr ${swarm_leader}
+        [ $? -ne 0 ] && ERROR 'There was a problem initializing the swarm. Is the IP provided correct and reachable?' && exit 1
+        # Generate command to join swarm as a worker
+        docker swarm join-token worker
+        # Generate command to join swarm as a manager
+        docker swarm join-token manager
+    elif [ ${#swarm_node} -gt 0 ]; then
+        eval "${swarm_node}"
+        [ $? -ne 0 ] && ERROR 'There was a problem joining the swarm. Please check the error log for additional information.' && exit 1
+    fi
+}
+
 #
 #
 ## Main
@@ -205,4 +221,5 @@ fi
 install_docker
 config_storage
 enable_and_start
+config_swarm
 exit 0

@@ -118,6 +118,8 @@ docker_repo="@docker_repo@"
 RHEL_version_string=7 # only supported version
 internal_rhel_repo="@internal_rhel_repo@"
 docker_version="@docker_version@"
+swarm_leader="@swarm_leader@"
+swarm_node="@swarm_node@"
 
 #
 #
@@ -249,6 +251,20 @@ baseurl=${internal_rhel_repo}
 EOF
 }
 
+function config_swarm() {
+    if [ ${#swarm_leader} -gt 0 ]; then 
+        docker swarm init --advertise-addr ${swarm_leader}
+        [ $? -ne 0 ] && ERROR 'There was a problem initializing the swarm. Is the IP provided correct and reachable?' && exit 1
+        # Generate command to join swarm as a worker
+        docker swarm join-token worker
+        # Generate command to join swarm as a manager
+        docker swarm join-token manager
+    elif [ ${#swarm_node} -gt 0 ]; then
+        eval "${swarm_node}"
+        [ $? -ne 0 ] && ERROR 'There was a problem joining the swarm. Please check the error log for additional information.' && exit 1
+    fi
+}
+
 function additional_config() {
     ## Allow root logins using SSH
     # Replace any entry of "PermitRootLogin..." or "#PermitRootLogin..." with "PermitRootLogin no"
@@ -271,5 +287,6 @@ fi
 install_docker
 config_storage
 enable_and_start
+config_swarm
 additional_config
 exit 0
