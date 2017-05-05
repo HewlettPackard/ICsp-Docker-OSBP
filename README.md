@@ -113,7 +113,7 @@ Note: the docker user is not part of the sudoers by default, so you won’t be a
 ## More information
 
 * [Blog entry](https://community.hpe.com/t5/Alliances/Deploy-Docker-ready-servers-in-minutes-with-HPE-ICsp/ba-p/6962368#.WQw2WNy1vmh) 
-* [Demo video](https://vimeo.com/ophintor/icsp-docker)
+* [Demo video](https://vimeo.com/216194554)
 
 ## Disclaimer
 As per section 7 of the Apache 2.0 license, this software is provided on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND. In addition to this, there is no plan to keep maintaining this software on a regular basis. However, if you encounter a problem running the scripts, we would be grateful if you could let us know by [creating a new issue in GitHub](https://github.com/HewlettPackard/ICsp-Docker-OSBP/issues) or by [contacting us directly](https://github.com/HewlettPackard/ICsp-Docker-OSBP/graphs/contributors). We'll do our best to address your feedback on a best-effort basis.
